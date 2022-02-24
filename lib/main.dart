@@ -1,4 +1,5 @@
-import 'package:basic_practice_apk/metamask.dart';
+
+import 'package:metamask_inegration_flutter/metamask.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
