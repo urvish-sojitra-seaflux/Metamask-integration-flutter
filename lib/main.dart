@@ -1,7 +1,7 @@
-
 import 'package:metamask_inegration_flutter/metamask.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:clipboard/clipboard.dart';
 
 void main() {
   runApp(const MyApp());
@@ -117,12 +117,16 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 fontWeight: FontWeight.bold),
                                           ),
                                           Row(
-                                            children: const [
-                                              Icon(
-                                                Icons.content_copy_rounded,
+                                            children: [
+                                              IconButton(
+                                                onPressed: () {
+                                                  _copytext(text);
+                                                },
+                                                icon: const Icon(
+                                                    Icons.content_copy_rounded),
                                                 color: Colors.white60,
                                               ),
-                                              Text(
+                                              const Text(
                                                 "Copy Address",
                                                 style: TextStyle(
                                                     color: Colors.white60),
@@ -197,5 +201,14 @@ class _MyHomePageState extends State<MyHomePage> {
         );
       },
     );
+  }
+
+  void _showSnackbar() {
+    ScaffoldMessenger.of(context)
+        .showSnackBar(const SnackBar(content: Text("Text Copied")));
+  }
+
+  void _copytext(String copytext) {
+    FlutterClipboard.copy(copytext).then((value) => _showSnackbar());
   }
 }
