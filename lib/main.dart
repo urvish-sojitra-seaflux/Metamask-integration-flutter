@@ -1,4 +1,4 @@
-import 'package:metamask_inegration_flutter/metamask.dart';
+import 'package:metamask_inegration_flutter/metamask_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:clipboard/clipboard.dart';
@@ -30,10 +30,8 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    // return Scaffold();
-    // }
     return ChangeNotifierProvider(
-      create: (context) => MetaMaskProvider()..init(),
+      create: (context) => MetaMaskProvider(),
       builder: (context, child) {
         return Scaffold(
           backgroundColor: const Color(0xFF1b202b),
