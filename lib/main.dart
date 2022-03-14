@@ -54,7 +54,43 @@ class _MyHomePageState extends State<MyHomePage> {
                   builder: (context, provider, child) {
                     late final String text;
                     text = provider.account;
-                    if (provider.isConnected) {
+                    if (provider.isEnabled) {
+                      return ElevatedButton(
+                        onPressed: () =>
+                            context.read<MetaMaskProvider>().connect(),
+                        style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(25),
+                            ),
+                            primary: const Color.fromARGB(255, 19, 43, 98),
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 10)),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 10.0),
+                              child: Image.asset(
+                                "assets/images/MetaMask_Fox.png",
+                                height: 30,
+                                width: 40,
+                              ),
+                            ),
+                            const Text(
+                              "Connect Wallet",
+                              style: TextStyle(
+                                color: Colors.white60,
+                                fontSize: 18,
+                              ),
+                            ),
+                            const SizedBox(width: 10)
+                          ],
+                        ),
+                      );
+                    } else if (provider.isConnected) {
                       return Card(
                         shape: RoundedRectangleBorder(
                           side: const BorderSide(
@@ -143,46 +179,12 @@ class _MyHomePageState extends State<MyHomePage> {
                           ),
                         ),
                       );
-                    } else if (provider.isEnabled) {
-                      return ElevatedButton(
-                        onPressed: () =>
-                            context.read<MetaMaskProvider>().connect(),
-                        style: ElevatedButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(25),
-                            ),
-                            primary: const Color.fromARGB(255, 19, 43, 98),
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 10)),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 10.0),
-                              child: Image.asset(
-                                "assets/images/MetaMask_Fox.png",
-                                height: 30,
-                                width: 40,
-                              ),
-                            ),
-                            const Text(
-                              "Connect Wallet",
-                              style: TextStyle(
-                                color: Colors.white60,
-                                fontSize: 18,
-                              ),
-                            ),
-                            const SizedBox(width: 10)
-                          ],
-                        ),
-                      );
                     } else {
-                      'Please use a Web3 supported browser.';
+                      const Text(
+                        'Please use a Web3 supported browser.',
+                        style: TextStyle(color: Colors.white),
+                      );
                     }
-
                     return ShaderMask(
                       shaderCallback: (bounds) => const LinearGradient(
                         colors: [Colors.purple, Colors.blue, Colors.red],

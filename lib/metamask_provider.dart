@@ -2,19 +2,20 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_web3/ethereum.dart';
 
 class MetaMaskProvider extends ChangeNotifier {
-  //Fetching the Current address of Account
+  static const connectingField = 0;
+
   String currentAddress = '';
 
-  // For storing the value of Account Address
   var account = "";
 
-  //Ehtereum chain is Enabled and not null
+  int? currentChain;
+
   bool get isEnabled => ethereum != null;
 
-  //Connected if chain and address are not empty
+  bool get isInOperatingChain => currentChain == connectingField;
+
   bool get isConnected => isEnabled && currentAddress.isNotEmpty;
 
-  //Future function for Requesting of Account
   Future<void> connect() async {
     if (isEnabled) {
       final accs = await ethereum!.requestAccount();
@@ -23,7 +24,26 @@ class MetaMaskProvider extends ChangeNotifier {
 
       if (accs.isNotEmpty) currentAddress = accs.first;
 
+      currentChain = await ethereum!.getChainId();
+
       notifyListeners();
+    }
+  }
+
+  clear() {
+    currentAddress = '';
+    currentChain;
+    notifyListeners();
+  }
+
+  init() {
+    if (isEnabled) {
+      ethereum!.onAccountsChanged((accounts) {
+        clear();
+      });
+      ethereum!.onChainChanged((accounts) {
+        clear();
+      });
     }
   }
 }
